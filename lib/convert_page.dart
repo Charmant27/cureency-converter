@@ -1,8 +1,21 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class Converter extends StatelessWidget {
+class Converter extends StatefulWidget {
   const Converter({super.key});
+
+  @override
+  State<Converter> createState() => _Converter();
+}
+
+class _Converter extends State<Converter> {
+  double inputCurrency = 0;
+  final TextEditingController textEditingController = TextEditingController();
+
+  void convert() {
+    setState(() {
+      inputCurrency = double.parse(textEditingController.text) * 1000;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,30 +35,27 @@ class Converter extends StatelessWidget {
           child: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text(
-                '0',
-                style: TextStyle(
+              Text(
+                'USD ${inputCurrency.toString()}',
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 30,
                     fontWeight: FontWeight.w600),
               ),
-              const TextField(
-                decoration: InputDecoration(
-                    hintText: 'Enter the amount to convert currency',
+              TextField(
+                controller: textEditingController,
+                decoration: const InputDecoration(
+                    hintText: 'Enter the amount to convert currency in Rwf',
                     hintStyle: TextStyle(color: Colors.black),
                     filled: true,
                     fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(style: BorderStyle.none))),
-                keyboardType: TextInputType.numberWithOptions(
+                keyboardType: const TextInputType.numberWithOptions(
                     decimal: true, signed: true),
               ),
               TextButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print('Pressed');
-                  }
-                },
+                onPressed: convert,
                 style: TextButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 0, 85, 212),
                     padding: const EdgeInsets.all(10)),
